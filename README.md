@@ -211,3 +211,10 @@ Eliminar tarea:
 curl -X DELETE http://localhost:3000/tasks/<UUID> \
   -H "Authorization: Bearer <TOKEN>"
 ```
+
+## Decisiones de diseno
+- REST estricto: recursos claros (`sessions`, `users`, `tasks`) para que los endpoints sean predecibles.
+- Seguridad simple y efectiva: JWT con guard en rutas protegidas para no duplicar validaciones.
+- Validacion en DTOs: evita datos basura y reduce errores en la base.
+- Multiusuario real: cada tarea tiene owner para que nadie vea o edite lo ajeno.
+- Documentacion viva: Swagger para probar rapido y entendimiento de el API.
