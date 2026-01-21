@@ -49,6 +49,7 @@ npx ts-node src/database/seeds/run-seed.ts
 
 Usuarios demo (seed):
 - Admin: `admin@test.com` / `Admin123!`
+- Test: `user@test.com` / `User123!`
 
 ## Ejecutar en desarrollo
 
