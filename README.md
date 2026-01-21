@@ -1,98 +1,212 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Task Manager API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API REST para gestion de tareas multiusuario con NestJS, TypeORM y JWT.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Nota: No hay registro publico; usar usuario seeded.
 
-## Description
+## Requisitos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Node.js 20+
+- PostgreSQL
 
-## Project setup
+## Variables de entorno
 
-```bash
-$ npm install
+Crea un archivo `.env` con:
+
+```
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASS=postgres
+DB_NAME=task_manager
+JWT_SECRET=super-secret
+JWT_EXPIRES_IN=1d
 ```
 
-## Compile and run the project
+## Instalacion
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+npm install
 ```
 
-## Run tests
+## Migrations
 
-```bash
-# unit tests
-$ npm run test
+```
+# Generar migracion (si deseas nuevas)
+# npx typeorm-ts-node-commonjs migration:generate src/database/migrations/NuevaMigracion -d src/database/data-source.ts
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+# Ejecutar migraciones
+npx typeorm-ts-node-commonjs migration:run -d src/database/data-source.ts
 ```
 
-## Deployment
+## Seed
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```
+# Ejecutar seed
+npx ts-node src/database/seeds/run-seed.ts
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Usuarios demo (seed):
+- Admin: `admin@test.com` / `Admin123!`
 
-## Resources
+## Ejecutar en desarrollo
 
-Check out a few resources that may come in handy when working with NestJS:
+```
+npm run start:dev
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Swagger
 
-## Support
+Disponible en `http://localhost:3000/docs`.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Endpoints principales
 
-## Stay in touch
+- `POST /sessions`
+- `GET /users/:uuid`
+- `GET /tasks`
+- `GET /tasks/:uuid`
+- `POST /tasks`
+- `PATCH /tasks/:uuid`
+- `DELETE /tasks/:uuid`
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Convenciones REST
 
-## License
+- Recursos: `sessions`, `users`, `tasks`.
+- JSON como formato de intercambio.
+- Autenticación: `Authorization: Bearer <TOKEN>`.
+- Códigos: `201` al crear, `200` al consultar/actualizar, `204` al eliminar.
+- Errores: `401` sin token, `403` sin permiso, `404` no encontrado, `422` validación.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## Esquemas (resumen)
+
+Login request:
+```json
+{ "email": "admin@test.com", "password": "Admin123!" }
+```
+
+Login response:
+```json
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": { "uuid": "550e8400-e29b-41d4-a716-446655440000", "email": "admin@test.com", "nombre": "Admin" }
+}
+```
+
+Task (detail):
+```json
+{
+  "uuid": "550e8400-e29b-41d4-a716-446655440000",
+  "titulo": "Preparar reporte mensual",
+  "descripcion": "Consolidar datos y enviar a finanzas.",
+  "completada": false,
+  "fechaEntrega": "2026-02-01T10:00:00.000Z",
+  "comentarios": "Revisar con el equipo",
+  "responsable": "Andrea",
+  "tags": ["finanzas", "mensual"],
+  "fechaCreacion": "2026-01-20T10:00:00.000Z",
+  "fechaActualizacion": "2026-01-21T10:00:00.000Z"
+}
+```
+
+## Endpoints detallados
+
+Crear sesión (login):
+```
+POST /sessions
+Body: { email, password }
+201: { accessToken, user }
+```
+
+Consultar usuario:
+```
+GET /users/:uuid
+Headers: Authorization: Bearer <TOKEN>
+200: { uuid, email, nombre }
+```
+
+Listar tareas:
+```
+GET /tasks
+Headers: Authorization: Bearer <TOKEN>
+200: TaskBrief[]
+```
+
+Detalle de tarea:
+```
+GET /tasks/:uuid
+Headers: Authorization: Bearer <TOKEN>
+200: TaskDetail
+```
+
+Crear tarea:
+```
+POST /tasks
+Headers: Authorization: Bearer <TOKEN>
+Body: { titulo, descripcion, completada, fechaEntrega, comentarios?, responsable?, tags? }
+201: TaskDetail
+```
+
+Actualizar tarea (parcial):
+```
+PATCH /tasks/:uuid
+Headers: Authorization: Bearer <TOKEN>
+Body: { titulo?, descripcion?, completada?, fechaEntrega?, comentarios?, responsable?, tags? }
+200: TaskDetail
+```
+
+Eliminar tarea:
+```
+DELETE /tasks/:uuid
+Headers: Authorization: Bearer <TOKEN>
+204: (sin body)
+```
+
+## Ejemplos curl
+
+Login:
+
+```
+curl -X POST http://localhost:3000/sessions \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@test.com","password":"Admin123!"}'
+```
+
+Crear tarea:
+
+```
+curl -X POST http://localhost:3000/tasks \
+  -H "Authorization: Bearer <TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{"titulo":"Preparar reporte","descripcion":"Detalle","completada":false,"fechaEntrega":"2026-02-01T10:00:00.000Z","tags":["demo"]}'
+```
+
+Listar tareas:
+
+```
+curl -X GET http://localhost:3000/tasks \
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+Detalle tarea:
+
+```
+curl -X GET http://localhost:3000/tasks/<UUID> \
+  -H "Authorization: Bearer <TOKEN>"
+```
+
+Actualizar tarea:
+
+```
+curl -X PATCH http://localhost:3000/tasks/<UUID> \
+  -H "Authorization: Bearer <TOKEN>" \
+  -H "Content-Type: application/json" \
+  -d '{"completada":true}'
+```
+
+Eliminar tarea:
+
+```
+curl -X DELETE http://localhost:3000/tasks/<UUID> \
+  -H "Authorization: Bearer <TOKEN>"
+```
